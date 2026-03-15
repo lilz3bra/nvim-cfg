@@ -6,11 +6,20 @@ vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "Go to LSP declarati
 vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "Go to LSP implementation" })
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "Format buffer" })
 vim.keymap.set("v", "<leader>y", '"+y', { desc = "Yank to system clipboard" })
+-- Move by visual line instead of logical line
+vim.keymap.set('n', 'j', 'gj', { silent = true })
+vim.keymap.set('n', 'k', 'gk', { silent = true })
+
+vim.keymap.set("n", "<F1>", function()
+    vim.cmd.help(vim.fn.expand("<cword>"))
+end, { desc = "Get help for word under cursor" })
 
 vim.keymap.set("n", "<leader>rr", function()
-	require("plenary.reload").reload_module("clackity")
+    require("plenary.reload").reload_module("clackity")
 
-	local clackity = require("clackity")
-	clackity.Start()
-	print("Clackity Reloaded! 🚀")
+    local clackity = require("clackity")
+    clackity.Start()
 end)
+
+vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, { desc = "Show signature help" })
+vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename symbol" })
