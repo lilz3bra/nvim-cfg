@@ -1,5 +1,4 @@
 vim.g.mapleader = " "
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, { desc = "Open netrw file explorer" })
 vim.keymap.set("i", "jj", "<Esc>", { desc = "Escape insert mode" })
 vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to LSP definition" })
 vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "Go to LSP declaration" })
@@ -10,6 +9,7 @@ vim.keymap.set("v", "<leader>y", '"+y', { desc = "Yank to system clipboard" })
 vim.keymap.set('n', 'j', 'gj', { silent = true })
 vim.keymap.set('n', 'k', 'gk', { silent = true })
 
+vim.keymap.set('n', '<Esc>', "<cmd>nohlsearch<CR>", { desc = "Clear highlight" })
 vim.keymap.set("n", "<F1>", function()
     vim.cmd.help(vim.fn.expand("<cword>"))
 end, { desc = "Get help for word under cursor" })

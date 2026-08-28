@@ -8,6 +8,7 @@ return {
         "hrsh7th/cmp-cmdline",
         "L3MON4D3/LuaSnip",
         "saadparwaiz1/cmp_luasnip",
+        "brenoprata10/nvim-highlight-colors",
         "hrsh7th/cmp-nvim-lsp-signature-help",
     },
     config = function()
@@ -15,12 +16,35 @@ return {
         local luasnip = require("luasnip")
 
         cmp.setup({
+            window = {
+                completion = cmp.config.window.bordered({
+                    border = "rounded",
+                    col_offset = -3,
+                    side_padding = 1,
+                    winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None",
+                }),
+                documentation = cmp.config.window.bordered({
+                    border = "rounded",
+                    winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+                }),
+
+            },
             snippet = {
                 expand = function(args)
                     luasnip.lsp_expand(args.body)
                 end,
             },
             mapping = cmp.mapping.preset.insert({
+                -- Force cmp to ignore Down arrow and move cursor instead
+                ["<Down>"] = cmp.mapping(function(fallback)
+                    fallback()
+                end, { "i" }),
+
+                -- Force cmp to ignore Up arrow and move cursor instead
+                ["<up>"] = cmp.mapping(function(fallback)
+                    fallback()
+                end, { "i" }),
+
                 ["<Tab>"] = cmp.mapping(function(fallback)
                     if cmp.visible() then
                         cmp.select_next_item()
@@ -39,7 +63,7 @@ return {
                         fallback()
                     end
                 end, { "i", "s" }),
-                ["<C-y>"] = cmp.mapping.confirm({ select = true }),
+                ["<S-CR>"] = cmp.mapping.confirm({ select = true }),
                 ["<S-Space>"] = cmp.mapping.complete(),
             }),
             sources = cmp.config.sources({
@@ -50,6 +74,9 @@ return {
                 { name = "buffer", priority = 30 },
                 { name = "path",   priority = 10 },
             }),
+            formatting = {
+                format = require("nvim-highlight-colors").format
+            },
         })
     end,
 }

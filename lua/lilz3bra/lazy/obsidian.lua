@@ -1,9 +1,13 @@
 return {
     "obsidian-nvim/obsidian.nvim",
-    version = "*", -- use latest release, remove to use latest commit
-    ft = "markdown",
-    ---@module 'obsidian'
-    ---@type obsidian.config
+    version = "*",
+    cmd = {
+        "Obsidian"
+    },
+    keys = {
+        { "<leader>nd", "<cmd>Obsidian today<CR>", desc = "Open Daily Note" },
+    },
+
     opts = {
         legacy_commands = false,
         workspaces = {
@@ -11,10 +15,11 @@ return {
                 name = "personal",
                 path = "~/vault/personal",
             },
-            {
-                name = "dev",
-                path = "~/vault/dev",
-            },
         },
+
+        daily_notes = {
+            folder = "daily",
+            date_format = "%Y-%m-%d",
+        }
     },
 }

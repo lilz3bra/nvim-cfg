@@ -15,7 +15,23 @@ return {
             vim.lsp.protocol.make_client_capabilities(),
             require("cmp_nvim_lsp").default_capabilities()
         )
+        -- Globally style all LSP floating windows
+        local border = "rounded"
 
+        vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+            vim.lsp.handlers.hover, {
+                border = border,
+                max_width = 80, -- Prevents it from getting too wide
+            }
+        )
+        vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+            vim.lsp.handlers.signature_help, {
+                border = border,
+                max_width = 80,
+                -- Closes the window automatically when you move the cursor or type
+                close_events = { "CursorMoved", "BufHidden", "InsertCharPre" },
+            }
+        )
         require("mason").setup()
         require("mason-lspconfig").setup({
             ensure_installed = {
@@ -59,12 +75,6 @@ return {
                 header = "",
                 prefix = "",
             },
-        })
-
-        vim.api.nvim_create_autocmd("BufWritePre", {
-            callback = function(args)
-                vim.lsp.buf.format({ bufnr = args.buf })
-            end,
         })
     end,
 }
